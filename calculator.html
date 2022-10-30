@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daniel's Calculator</title>
+    <style>
+      body {
+        background-color: rgb(57, 57, 57);
+        color: black;
+        font-size: 60px;
+        overflow: hidden;
+      }
+
+      .calculator-container {
+        width: 600px;
+        height: 1000px;
+        border: 2px solid black;
+        margin: 100px auto 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      div.calculator-container div {
+        text-align: center;
+        display: flex;
+        background-color: rgb(255, 248, 230);
+        width: 100px;
+        height: 100px;
+        margin: 0px;
+        border: 4px solid black;
+      }
+
+      div.calculator-container div:hover {
+        cursor: pointer;
+        background-color: rgb(139, 139, 139);
+      }
+
+      div.calculator-container div:active {
+        outline: 2px solid rgb(100, 100, 100);
+      }
+
+      .output {
+        width: inherit !important;
+        margin: 0 !important;
+        height: auto !important;
+        overflow: scroll;
+      }
+
+      .copy-text {
+        font-size: 30px;
+        display: none;
+        color: black;
+        background-color: white;
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        padding: 4px;
+        position: relative;
+        top: 80px;
+        left: 240px;
+      }
+
+      .history {
+        width: auto !important;
+        height: 60px !important;
+        font-size: 40px;
+        padding: 10px;
+        text-align: center;
+        display: flex !important;
+        overflow: scroll;
+      }
+
+      .equation {
+        width: auto !important;
+        height: 60px !important;
+        font-size: 40px;
+        padding: 10px;
+        text-align: center;
+        display: flex !important;
+        overflow: scroll;
+      }
+
+      h1 {
+        color: cyan;
+        text-align: center;
+        margin: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Daniel's Calculator</h1>
+    <div class="copy-text">Copied to Clipboard!</div>
+    <div class="calculator-container">
+      <div
+        class="output"
+        id="output"
+        onclick="copyToClipboard('.output')"
+      ></div>
+      <div class="num1">1</div>
+      <div class="num2">2</div>
+      <div class="num3">3</div>
+      <div class="num4">4</div>
+      <div class="num5">5</div>
+      <div class="num6">6</div>
+      <div class="num7">7</div>
+      <div class="num8">8</div>
+      <div class="num9">9</div>
+      <div class="num0">0</div>
+      <div class="plus">+</div>
+      <div class="minus">-</div>
+      <div class="multiply">*</div>
+      <div class="divide">/</div>
+      <div class="equal">=</div>
+      <div class="clear">C</div>
+      <div class="history" onclick="copyToClipboard('.history')">History</div>
+      <div class="equation" onclick="copyToClipboard('.equation')">
+        Equation
+      </div>
+    </div>
+
+    <script>
+      var outputBox = document.querySelector(".output");
+
+      // entire equation
+      function setEquation(equation, answer) {
+        document.querySelector(".equation").innerHTML =
+          equation + " = " + answer;
+      }
+      // history
+      function setHistory(equation) {
+        document.querySelector(".history").innerHTML = equation;
+      }
+
+      // output
+      function copyToClipboard(element) {
+        var copyText = document.querySelector(element).innerHTML;
+        navigator.clipboard.writeText(copyText).then(() => {});
+        document.querySelector(".copy-text").style.display = "inline";
+        setTimeout(function () {
+          document.querySelector(".copy-text").style.display = "none";
+        }, 1500);
+      }
+
+      // clear
+      document.querySelector(".clear").addEventListener("click", function () {
+        outputBox.innerHTML = "";
+      });
+
+      // equal
+      document.querySelector(".equal").addEventListener("click", function () {
+        setHistory(outputBox.innerHTML);
+        var history = outputBox.innerHTML;
+        let x = 5;
+        const y = 4;
+        outputBox.innerHTML = eval(outputBox.innerHTML);
+        setEquation(history, outputBox.innerHTML);
+      });
+
+      // plus
+      document.querySelector(".plus").addEventListener("click", function () {
+        outputBox.innerHTML = outputBox.innerHTML + " + ";
+      });
+
+      // minus
+      document.querySelector(".minus").addEventListener("click", function () {
+        outputBox.innerHTML = outputBox.innerHTML + " - ";
+      });
+
+      // multiply
+      document
+        .querySelector(".multiply")
+        .addEventListener("click", function () {
+          outputBox.innerHTML = outputBox.innerHTML + " * ";
+        });
+
+      // divide
+      document.querySelector(".divide").addEventListener("click", function () {
+        outputBox.innerHTML = outputBox.innerHTML + " / ";
+      });
+
+      // num1-9
+      document.querySelector(".num1").addEventListener("click", function () {
+        outputBox.innerHTML += "1";
+      });
+      document.querySelector(".num2").addEventListener("click", function () {
+        outputBox.innerHTML += "2";
+      });
+      document.querySelector(".num3").addEventListener("click", function () {
+        outputBox.innerHTML += "3";
+      });
+      document.querySelector(".num4").addEventListener("click", function () {
+        outputBox.innerHTML += "4";
+      });
+      document.querySelector(".num5").addEventListener("click", function () {
+        outputBox.innerHTML += "5";
+      });
+      document.querySelector(".num6").addEventListener("click", function () {
+        outputBox.innerHTML += "6";
+      });
+      document.querySelector(".num7").addEventListener("click", function () {
+        outputBox.innerHTML += "7";
+      });
+      document.querySelector(".num8").addEventListener("click", function () {
+        outputBox.innerHTML += "8";
+      });
+      document.querySelector(".num9").addEventListener("click", function () {
+        outputBox.innerHTML += "9";
+      });
+      document.querySelector(".num0").addEventListener("click", function () {
+        outputBox.innerHTML += "0";
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 49) {
+          outputBox.innerHTML += "1";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 50) {
+          outputBox.innerHTML += "2";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 51) {
+          outputBox.innerHTML += "3";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 52) {
+          outputBox.innerHTML += "4";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 53) {
+          outputBox.innerHTML += "5";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 54) {
+          outputBox.innerHTML += "6";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 55) {
+          outputBox.innerHTML += "7";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 56) {
+          outputBox.innerHTML += "8";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 57) {
+          outputBox.innerHTML += "9";
+        }
+      });
+      document.querySelector("body").addEventListener("keyup", function (e) {
+        if (e.which === 48) {
+          outputBox.innerHTML += "0";
+        }
+      });
+    </script>
+  </body>
+</html>
